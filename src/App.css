@@ -1,0 +1,257 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 32px 16px;
+}
+
+.app__header {
+  text-align: center;
+}
+
+.app__header h1 {
+  margin: 0;
+  font-size: 1.6rem;
+  /* Serif cálida en vez de la tipografía del sistema: le da un aire de
+     rótulo/etiqueta de cámara vieja al título. */
+  font-family: 'Arvo', Georgia, serif;
+  color: var(--ink);
+}
+
+.app__subtitle {
+  margin: 4px 0 0;
+  /* --ink-soft da ~5.35:1 sobre --bg — pasa WCAG AA (mínimo 4.5:1) y
+     mantiene la sutileza de un subtítulo. */
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+/* Aviso chico de qué backend de persistencia está activo (Firestore si
+   Orne configuró un proyecto real, localStorage si no) — no es un error,
+   es simplemente transparencia sobre dónde viven las fotos y los presets. */
+.app__backend-note {
+  margin: 2px 0 0;
+  color: var(--ink-soft);
+  font-size: 0.72rem;
+  font-style: italic;
+}
+
+/* Layout en dos columnas (pantallas anchas): a la izquierda el visor con los
+   parámetros justo debajo (y los presets al final), a la derecha la foto que
+   se acaba de sacar con la devolución del tutor. Se arma con grid-template-
+   areas en vez de envolver todo en dos <div> de columna, para poder
+   REORDENAR en pantallas angostas sin tocar el JSX: ahí el orden pasa a ser
+   visor → foto + devolución → parámetros → presets (así, al disparar, la
+   foto aparece justo debajo del visor y no al fondo de la página). La
+   columna derecha tiene ancho fijo (el visor se queda con el resto) porque
+   una foto + un texto de tutor necesitan un ancho cómodo de lectura, no
+   uno proporcional a la pantalla. */
+.app__main {
+  max-width: 1280px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  grid-template-areas:
+    'viewfinder  gallery'
+    'scene       gallery'
+    'controls    gallery'
+    'challenges  gallery'
+    'presets     gallery';
+  /* Las filas se ajustan a su contenido; la fila sobrante (si la columna
+     derecha es más alta que la izquierda) la absorbe `presets` en vez de
+     estirar el visor o los controles. */
+  grid-template-rows: auto auto auto auto 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.app__viewfinder-wrap {
+  grid-area: viewfinder;
+}
+
+.app__main > .scene-panel {
+  grid-area: scene;
+}
+
+.app__main > .control-panel {
+  grid-area: controls;
+}
+
+.app__main > .challenges {
+  grid-area: challenges;
+}
+
+.app__main > .presets {
+  grid-area: presets;
+}
+
+.app__main > .gallery {
+  grid-area: gallery;
+}
+
+@media (max-width: 960px) {
+  .app__main {
+    max-width: 960px;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'viewfinder'
+      'gallery'
+      'scene'
+      'controls'
+      'challenges'
+      'presets';
+    grid-template-rows: none;
+  }
+
+  /* En una sola columna la foto + devolución no tienen por qué estirarse
+     al ancho del visor: un ancho acotado y centrado se lee mejor. */
+  .app__main > .gallery {
+    width: 100%;
+    max-width: 420px;
+    justify-self: center;
+  }
+}
+
+.app__viewfinder-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Destello blanco brevísimo al disparar — el "click" visual del obturador. */
+.app__flash {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  opacity: 0.85;
+  pointer-events: none;
+  animation: flash-fade 150ms ease-out forwards;
+  border-radius: 8px 8px 0 0;
+}
+
+@keyframes flash-fade {
+  from {
+    opacity: 0.85;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Quien pidió "menos movimiento" al sistema operativo también lo pide acá:
+   el flash sigue marcando el disparo, pero sin la animación — aparece y
+   desaparece de una, sin el fundido. */
+@media (prefers-reduced-motion: reduce) {
+  .app__flash {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* Botón de disparo, apoyado sobre la esquina del visor como el gatillo
+   físico de una réflex. */
+.app__shutter-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 3px solid var(--border-soft);
+  background: radial-gradient(circle at 35% 30%, var(--shutter), var(--shutter-dark) 70%);
+  box-shadow: 0 3px 8px rgba(59, 42, 29, 0.5);
+  cursor: pointer;
+}
+
+.app__shutter-btn:active {
+  transform: scale(0.94);
+}
+
+/* Anillo de foco visible al navegar con teclado (Tab) — antes sólo tenía
+   feedback al clickear con el mouse. :focus-visible no se muestra en un
+   click de mouse normal, así que no molesta al look del botón. */
+.app__shutter-btn:focus-visible {
+  outline: 3px solid var(--accent-deep);
+  outline-offset: 3px;
+}
+
+/* Franja de datos debajo del visor, como el display de estado de una
+   réflex real (modo, obturador, apertura, ISO). */
+.app__hud {
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  padding: 8px 12px;
+  background: var(--panel-deep);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  font-variant-numeric: tabular-nums;
+  font-family: 'IBM Plex Mono', 'Courier New', monospace;
+  font-size: 0.85rem;
+  /* --panel-deep es un tostado medio: --ink-soft (el gris atenuado que se
+     usa sobre fondos más claros) no llega a 4.5:1 acá, así que el texto
+     base del HUD usa --ink directo (pasa 6.08:1). */
+  color: var(--ink);
+}
+
+.app__hud-mode {
+  font-weight: 700;
+  /* --shutter-dark pasa 4.96:1 sobre --panel-deep, y además conecta
+     visualmente el modo con el botón de disparo (mismo rojo oscuro). */
+  color: var(--shutter-dark);
+}
+
+/* Marca los valores que decidió el fotómetro simulado (no vos) en A/S/AUTO.
+   Itálica en vez de bajar la opacidad: bajar opacidad diluye --ink contra
+   --panel-deep por debajo de 4.5:1 (quedaba en ~3.7:1) — la itálica
+   distingue igual de bien sin perder legibilidad. */
+.app__hud-metered {
+  font-style: italic;
+}
+
+/* El EV (sub/sobreexposición) va en su propia "ficha" con fondo claro en
+   vez de texto directo sobre --panel-deep: así los colores de acento (teal
+   por defecto, rust si está sobreexpuesto, gris-azulado si está
+   subexpuesto) pueden pasar WCAG AA sin depender de qué tan oscuro sea el
+   fondo del HUD — los tres pasan 4.5:1+ sobre --panel-soft. */
+.app__hud-ev {
+  margin-left: auto;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--panel-soft);
+  color: var(--accent-deep);
+}
+
+.app__hud-ev--over {
+  color: var(--warn-deep);
+}
+
+.app__hud-ev--under {
+  color: var(--cool-deep);
+}
+
+/* En pantallas chicas los 5 valores (modo, obturador, apertura, ISO, EV)
+   no entran cómodos en una sola línea — en vez de desbordar o apretarse
+   hasta ser ilegibles, el EV pasa a su propia línea centrada debajo. */
+@media (max-width: 480px) {
+  .app__hud {
+    flex-wrap: wrap;
+    row-gap: 4px;
+    gap: 10px;
+    font-size: 0.78rem;
+  }
+
+  .app__hud-ev {
+    flex-basis: 100%;
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .app__header h1 {
+    font-size: 1.3rem;
+  }
+}

@@ -1,0 +1,48 @@
+/* Tipografías para el estilo "Vintage Analog / Retro Film": una serif
+   cálida para los títulos (aire de revista/etiqueta vieja) y una monoespaciada
+   para los números del HUD y los diales (aire de instrumento de medición,
+   como el visor de un fotómetro analógico). El resto del texto se queda con
+   la tipografía del sistema por legibilidad. */
+@import url('https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  /* Paleta "Vintage Analog / Retro Film": tonos cálidos de foto analógica
+     vieja (crema, tostado, tinta sepia) en vez del negro/gris frío de antes.
+     Cada color de TEXTO de acá fue chequeado contra WCAG AA (mínimo 4.5:1)
+     sobre el fondo puntual donde se usa realmente — no alcanza con "que se
+     vea bien", tiene que ser legible de verdad. Por eso hay variantes
+     "-deep" (más oscuras): los tonos pastel del swatch original (teal,
+     rust, celeste grisáceo) no pasan como texto por sí solos, así que se
+     oscurecieron lo justo para pasar el chequeo sin dejar de ser
+     reconociblemente esos colores. */
+  --bg: #f3e4c6;
+  --panel: #e8d5a8;
+  --panel-soft: #efe0bc;
+  --panel-deep: #c9a873;
+  --border: #b08d55;
+  --border-soft: #c9b287;
+
+  --ink: #3b2a1d; /* texto principal — pasa 6:1+ contra CUALQUIER fondo de la paleta */
+  --ink-soft: #6b5940; /* texto secundario/atenuado — sólo sobre --bg/--panel/--panel-soft */
+
+  --accent: #4a7b7c; /* teal — sólo fondos/bordes/chips, NUNCA texto chico */
+  --accent-deep: #3e6a6b; /* teal oscurecido — usable como texto sobre fondos claros */
+  --accent-ink: #fbf7ec; /* crema — texto sobre fondos de --accent-deep */
+
+  --warn-deep: #8a431f; /* rust oscurecido — indicador de sobreexposición */
+  --cool-deep: #2f5560; /* gris-azulado oscurecido — indicador de subexposición */
+
+  --shutter: #a83a2c;
+  --shutter-dark: #6e2018;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+}

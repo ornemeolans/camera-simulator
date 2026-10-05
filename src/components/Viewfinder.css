@@ -1,0 +1,59 @@
+.viewfinder {
+  position: relative;
+  display: block;
+  width: 100%;
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+  /* El visor en sí se queda oscuro (como el ocular de una réflex real, que
+     es negro sin importar el color del cuerpo de la cámara), pero la
+     sombra alrededor usa el mismo marrón tinta del resto de la paleta en
+     vez de negro puro frío, para que quede integrado con el look cálido. */
+  box-shadow: 0 0 0 3px var(--ink), 0 12px 30px rgba(59, 42, 29, 0.4);
+  background: #000;
+}
+
+.viewfinder__canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Líneas de encuadre estilo réflex (regla de tercios), decorativas por ahora */
+.viewfinder__frame-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.25) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.25) 1px, transparent 1px);
+  background-size: 33.33% 33.33%;
+}
+
+.viewfinder__overlay-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  background: rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}
+
+/* Histograma superpuesto (esquina inferior izquierda): chico y semitransparente
+   para no tapar la escena, y sin eventos de mouse para no interferir con nada. */
+.viewfinder__histogram {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  width: 128px;
+  height: 51px;
+  border: 1px solid rgba(243, 228, 198, 0.5);
+  border-radius: 4px;
+  pointer-events: none;
+}

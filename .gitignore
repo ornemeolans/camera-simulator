@@ -1,0 +1,23 @@
+# Dependencias y build
+node_modules
+dist
+coverage
+.DS_Store
+*.local
+*.zip
+
+# Credenciales/config local de Firebase (las variables VITE_FIREBASE_* van acá)
+.env
+.env.*
+!.env.example
+.firebase/
+
+# Herramientas de trabajo con asistentes de IA (grafo de conocimiento,
+# skills, instrucciones): útiles localmente, ruido en un repo público.
+graphify-out/
+.claude/
+.graphifyignore
+CLAUDE.md
+
+# Prototipo suelto sin relación con el simulador (Mesa de Luz)
+light-table.html

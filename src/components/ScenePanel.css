@@ -1,0 +1,67 @@
+.scene-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.scene-panel__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.scene-panel__row--tools {
+  justify-content: space-between;
+}
+
+.scene-panel__chip,
+.scene-panel__tool {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--panel-soft);
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Activo: --accent-deep con texto --accent-ink (mismo par ya verificado en
+   el resto de la app). */
+.scene-panel__chip--active {
+  background: var(--accent-deep);
+  border-color: var(--accent-deep);
+  color: var(--accent-ink);
+}
+
+.scene-panel__chip:focus-visible,
+.scene-panel__tool:focus-visible,
+.scene-panel__toggle input:focus-visible {
+  outline: 2px solid var(--accent-deep);
+  outline-offset: 2px;
+}
+
+.scene-panel__file {
+  display: none;
+}
+
+.scene-panel__toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.scene-panel__hint {
+  margin: 0;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: var(--ink-soft);
+}

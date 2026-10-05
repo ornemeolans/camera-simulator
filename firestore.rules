@@ -1,0 +1,15 @@
+rules_version = '2';
+
+// Cada visitante (sesión anónima de Firebase Authentication) sólo puede leer
+// y escribir lo que está bajo SU carpeta: users/<su uid>/... Nadie ve los
+// datos de otro, y no hay acceso sin sesión. Sólo se permiten las tres
+// colecciones que usa la app.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{uid}/{collection}/{docId} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid == uid
+                         && collection in ['captures', 'presets', 'attempts'];
+    }
+  }
+}

@@ -1,0 +1,96 @@
+.tutor {
+  width: 100%;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tutor__title {
+  margin: 0;
+  font-size: 0.82rem;
+  font-family: 'Arvo', Georgia, serif;
+  color: var(--ink);
+}
+
+.tutor__section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tutor__section-label {
+  width: fit-content;
+  padding: 1px 8px;
+  border-radius: 4px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--panel-soft);
+}
+
+/* --accent-deep (teal oscurecido) ya se usa como texto sobre --panel-soft
+   en otros lugares del panel de controles — mismo par, mismo contraste
+   verificado, acá para marcar lo que salió BIEN. */
+.tutor__section-label--bien {
+  color: var(--accent-deep);
+}
+
+/* --warn-deep (rust oscurecido) es el mismo color que ya marca
+   sobreexposición en el HUD y el botón de borrar de la galería — reusarlo
+   acá para "A mejorar" mantiene el mismo lenguaje de color en toda la app. */
+.tutor__section-label--mal {
+  color: var(--warn-deep);
+}
+
+.tutor__list {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tutor__list li {
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+.tutor__fix {
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+.tutor__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.tutor__score {
+  font-family: 'IBM Plex Mono', 'Courier New', monospace;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.tutor__list--checks {
+  list-style: none;
+  padding-left: 2px;
+}
+
+/* Texto sólo para lectores de pantalla: el ✓/✗ visual no se lee bien solo. */
+.tutor__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

@@ -38,6 +38,15 @@ export function localPhotoUrl(sceneId: string): string | null {
   return key ? LOCAL_PHOTOS[key] : null
 }
 
+// Fotos reales de Unsplash (licencia libre, pensadas para usarse enlazadas
+// desde su CDN, que además habilita CORS: sin eso el canvas quedaría
+// "contaminado" y no se podría capturar la foto). Se piden ya recortadas
+// a 16:10 y comprimidas. Si la carga falla (sin internet, bloqueo) el visor
+// cae al dibujo generado de proceduralScene.js. Para no depender de nadie,
+// bajá la foto a src/assets/scenes/<id>.jpg: tiene prioridad sobre ésta.
+const UNSPLASH = (photoId: string) =>
+  `https://images.unsplash.com/photo-${photoId}?w=1600&h=1000&fit=crop&q=75&auto=format`
+
 export const SCENES: Scene[] = [
   {
     id: 'day',
@@ -64,6 +73,7 @@ export const SCENES: Scene[] = [
     cast: { color: '#6f9fe0', alpha: 0.16 },
     autoTint: { color: '#ff9d3a', alpha: 0.12 },
     sun: false,
+    remotePhotoUrl: UNSPLASH('1561046002-ced99fe6770c'),
     palette: { skyTop: '#9aa8b4', skyBottom: '#d3d9de', ridge: ['#8a98a3', '#6f8577'], groundTop: '#7ea36a', groundBottom: '#4f7243' },
   },
   {
@@ -78,6 +88,7 @@ export const SCENES: Scene[] = [
     autoTint: { color: '#3a6fff', alpha: 0.16 },
     sun: false,
     night: true,
+    remotePhotoUrl: UNSPLASH('1611323340350-bdcc0e6cfae5'),
     palette: { skyTop: '#0b1430', skyBottom: '#2a3a68', ridge: ['#141c36', '#0e1428'], groundTop: '#10162a', groundBottom: '#080b18' },
   },
 ]

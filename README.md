@@ -2,7 +2,7 @@
 
 Simulador interactivo de una cámara réflex (inspirado en la Nikon D7200) que **te enseña fotografía mientras jugás**: movés obturador, apertura, ISO, lente, balance de blancos y compensación de exposición, sacás la foto, y un **tutor** te dice qué salió bien, qué salió mal y cómo corregirlo. Incluye escenas con luz distinta, desafíos con puntaje, histograma en vivo y progreso guardado.
 
-**Demo:** https://camera-simulator.web.app
+**Demo:** _(agregar acá el link de Firebase Hosting después del primer deploy)_
 
 ![Día soleado: foto con 100/100 y devolución del tutor](docs/screenshot-dia.png)
 
@@ -10,7 +10,7 @@ Simulador interactivo de una cámara réflex (inspirado en la Nikon D7200) que *
 | --- | --- |
 | ![Escena nocturna](docs/screenshot-noche.png) | ![Vista móvil](docs/screenshot-movil.png) |
 
-> Las capturas usan la escena generada por código. Si agregás tus propias fotos en `src/assets/scenes/` (ver abajo) se usan en su lugar.
+> Cada escena usa una foto real de [Unsplash](https://unsplash.com) (enlazada desde su CDN) y, si no carga, un dibujo generado por código. Las capturas de abajo se sacaron con ese dibujo. Podés reemplazar cualquier foto poniendo la tuya en `src/assets/scenes/` (ver abajo).
 
 ## Qué hace
 

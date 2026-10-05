@@ -14,7 +14,6 @@ import {
   deletePreset,
   listAttempts,
   saveAttempt,
-  getBackendName,
 } from './services/storageService'
 import { analyzeCapture } from './services/photoTutorService'
 import { DEFAULT_SCENE_ID, getScene, resolveWhiteBalanceTint } from './data/scenes'
@@ -66,15 +65,11 @@ export default function App() {
   const [presets, setPresets] = useState([])
   // Historial de intentos de desafíos (progreso), persistido igual que lo demás.
   const [attempts, setAttempts] = useState([])
-  const [backend, setBackend] = useState(null)
 
   useEffect(() => {
     listCaptures().then(setCaptures).catch(() => setCaptures([]))
     listPresets().then(setPresets).catch(() => setPresets([]))
     listAttempts().then(setAttempts).catch(() => setAttempts([]))
-    // Qué backend quedó activo REALMENTE (Firestore con sesión anónima, o
-    // localStorage si no hay config o falló el login) — se resuelve async.
-    getBackendName().then(setBackend)
   }, [])
 
   // El objectURL de una foto propia ocupa memoria hasta que se libera: lo
@@ -251,14 +246,6 @@ export default function App() {
         <h1>Simulador de Cámara</h1>
         <p className="app__subtitle">
           Simulador interactivo de réflex, inspirado en la Nikon D7200
-        </p>
-        <p className="app__backend-note">
-          Guardado de fotos y ajustes:{' '}
-          {backend === null
-            ? 'conectando…'
-            : backend === 'firestore'
-              ? 'Firestore (en la nube, con sesión anónima)'
-              : 'este navegador (localStorage)'}
         </p>
       </header>
 

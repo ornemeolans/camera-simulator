@@ -28,16 +28,6 @@
   font-size: 0.9rem;
 }
 
-/* Aviso chico de qué backend de persistencia está activo (Firestore si
-   Orne configuró un proyecto real, localStorage si no) — no es un error,
-   es simplemente transparencia sobre dónde viven las fotos y los presets. */
-.app__backend-note {
-  margin: 2px 0 0;
-  color: var(--ink-soft);
-  font-size: 0.72rem;
-  font-style: italic;
-}
-
 /* Layout en dos columnas (pantallas anchas): a la izquierda el visor con los
    parámetros justo debajo (y los presets al final), a la derecha la foto que
    se acaba de sacar con la devolución del tutor. Se arma con grid-template-

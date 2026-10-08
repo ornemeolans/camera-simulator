@@ -2,105 +2,159 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
-.gallery--empty {
-  padding: 18px;
-  background: var(--panel);
-  border: 1px solid var(--border-soft);
-  border-radius: 10px;
+/* Estado vacío: una invitación concreta a disparar, no un renglón suelto. */
+.gallery__empty {
+  padding: 36px 24px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  color: var(--ink-soft);
-  font-size: 0.85rem;
+  gap: 6px;
 }
 
-/* Panel de "última foto", como la pantalla de revisión de una réflex real.
-   Ocupa todo el ancho de su columna (la columna derecha del layout en
-   App.css, o un ancho acotado en pantallas angostas — ver ahí). */
+.gallery__empty-icon {
+  width: 52px;
+  height: 52px;
+  margin-bottom: 8px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--r-lg);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.gallery__empty-title {
+  margin: 0;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.gallery__empty-text {
+  margin: 0;
+  max-width: 32ch;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  text-wrap: pretty;
+}
+
+/* Última foto, como la pantalla de revisión de una réflex. */
 .gallery__latest {
-  width: 100%;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 10px;
+  margin: 0;
   overflow: hidden;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .gallery__latest {
+    animation: develop 700ms var(--ease) both;
+  }
+}
+
+/* "Revelado": la foto entra apenas desenfocada y sobreexpuesta. */
+@keyframes develop {
+  from {
+    opacity: 0;
+    filter: blur(6px) brightness(1.4);
+    transform: scale(0.985);
+  }
+  to {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
 }
 
 .gallery__latest-img {
   display: block;
   width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  background: #0b0c0e;
 }
 
 .gallery__latest-info {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  padding: 8px 10px;
+  gap: 10px;
+  padding: 10px 10px 10px 14px;
 }
 
 .gallery__caption {
-  margin: 0;
   font-size: 0.78rem;
   font-variant-numeric: tabular-nums;
-  font-family: 'IBM Plex Mono', 'Courier New', monospace;
+  font-family: var(--font-mono);
+  white-space: pre-wrap;
   color: var(--ink-soft);
 }
 
 .gallery__delete-btn {
   flex-shrink: 0;
-  padding: 5px 10px;
-  border-radius: 6px;
-  border: 1px solid var(--border-soft);
-  background: var(--panel-soft);
-  color: var(--warn-deep);
-  font-size: 0.72rem;
-  font-weight: 600;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink-soft);
   cursor: pointer;
+  transition: color 160ms var(--ease), border-color 160ms var(--ease), background-color 160ms var(--ease);
 }
 
 .gallery__delete-btn:hover {
-  border-color: var(--warn-deep);
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-soft);
 }
 
-.gallery__delete-btn:focus-visible {
-  outline: 2px solid var(--accent-deep);
-  outline-offset: 2px;
+.gallery__delete-btn:active {
+  transform: scale(0.94);
 }
 
-/* Tira de miniaturas de capturas anteriores — scroll horizontal en vez de
-   wrap, porque esto puede crecer hasta 11 fotos (el tope son 12 contando la
-   última) y no queremos que empuje el resto de la página hacia abajo. */
+/* Tira de miniaturas: scroll horizontal con snap, para que hasta 11 fotos
+   no empujen el resto de la página hacia abajo. */
 .gallery__strip {
   display: flex;
   gap: 8px;
   overflow-x: auto;
-  padding: 4px 2px 8px;
+  scroll-snap-type: x mandatory;
+  padding: 2px 2px 8px;
 }
 
 .gallery__thumb {
   position: relative;
   flex-shrink: 0;
-  width: 84px;
+  width: 92px;
   margin: 0;
-  background: var(--panel);
-  border: 1px solid var(--border-soft);
-  border-radius: 6px;
+  scroll-snap-align: start;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
   overflow: hidden;
+  transition: border-color 160ms var(--ease), transform 200ms var(--ease);
+}
+
+.gallery__thumb:hover {
+  border-color: var(--line-strong);
+  transform: translateY(-2px);
 }
 
 .gallery__thumb img {
   display: block;
   width: 100%;
-  height: 56px;
+  aspect-ratio: 3 / 2;
   object-fit: cover;
 }
 
 .gallery__thumb figcaption {
-  padding: 3px 4px;
-  font-size: 0.6rem;
+  padding: 4px 6px;
+  font-size: 0.68rem;
   font-variant-numeric: tabular-nums;
-  font-family: 'IBM Plex Mono', 'Courier New', monospace;
+  font-family: var(--font-mono);
   color: var(--ink-soft);
   text-align: center;
   white-space: nowrap;
@@ -110,23 +164,35 @@
 
 .gallery__thumb-delete {
   position: absolute;
-  top: 2px;
-  right: 2px;
-  width: 18px;
-  height: 18px;
+  top: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
   border: none;
-  border-radius: 50%;
-  background: rgba(59, 42, 29, 0.72);
-  color: #fbf7ec;
-  font-size: 0.8rem;
-  line-height: 1;
+  border-radius: var(--r-sm);
+  background: rgba(11, 12, 14, 0.7);
+  color: #ecedef;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  transition: opacity 160ms var(--ease), background-color 160ms var(--ease);
 }
 
+/* El botón de borrar aparece al pasar el mouse o al llegar con el teclado;
+   en pantallas táctiles (sin hover) queda siempre visible. */
+.gallery__thumb:hover .gallery__thumb-delete,
 .gallery__thumb-delete:focus-visible {
-  outline: 2px solid var(--accent-ink);
-  outline-offset: 1px;
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .gallery__thumb-delete {
+    opacity: 1;
+  }
+}
+
+.gallery__thumb-delete:hover {
+  background: var(--accent);
+  color: var(--accent-ink);
 }

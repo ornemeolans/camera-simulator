@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { FloppyDisk, X } from '@phosphor-icons/react'
 import './PresetsPanel.css'
 
 /**
@@ -24,44 +25,64 @@ export default function PresetsPanel({ presets, onSave, onLoad, onDelete }) {
   }
 
   return (
-    <div className="presets">
+    <section className="presets surface enter" style={{ '--i': 5 }} aria-labelledby="presets-title">
+      <h2 id="presets-title" className="panel-title">
+        Ajustes guardados
+      </h2>
+
       <form className="presets__form" onSubmit={handleSave}>
-        <input
-          type="text"
-          className="presets__input"
-          placeholder="Nombre para este ajuste (ej. Retrato desenfocado)"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          maxLength={60}
-          aria-label="Nombre del preset a guardar"
-        />
+        <label className="presets__field">
+          <span className="presets__label">Nombre del ajuste</span>
+          <input
+            type="text"
+            className="presets__input"
+            placeholder="Ej. Retrato desenfocado"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            maxLength={60}
+          />
+        </label>
         <button type="submit" className="presets__save-btn" disabled={!name.trim()}>
-          Guardar ajustes
+          <FloppyDisk size={16} weight="bold" aria-hidden="true" />
+          Guardar
         </button>
       </form>
 
-      {presets.length > 0 && (
+      {presets.length > 0 ? (
         <ul className="presets__list">
           {presets.map((p) => (
             <li key={p.id} className="presets__item">
-              <span className="presets__item-name">{p.name}</span>
-              <span className="presets__item-meta">{summaryFor(p)}</span>
+              <div className="presets__item-text">
+                <span className="presets__item-name">{p.name}</span>
+                <span className="presets__item-meta">{summaryFor(p)}</span>
+              </div>
               <div className="presets__item-actions">
                 <button type="button" onClick={() => onLoad(p)} className="presets__load-btn">
                   Cargar
                 </button>
-                <button type="button" onClick={() => onDelete(p.id)} className="presets__delete-btn" aria-label={`Borrar preset ${p.name}`}>
-                  ×
+                <button
+                  type="button"
+                  onClick={() => onDelete(p.id)}
+                  className="presets__delete-btn"
+                  aria-label={`Borrar preset ${p.name}`}
+                  title="Borrar"
+                >
+                  <X size={14} weight="bold" />
                 </button>
               </div>
             </li>
           ))}
         </ul>
+      ) : (
+        <p className="presets__empty">
+          Guardá la combinación actual de modo, obturador, apertura, ISO, lente y balance de blancos para volver a
+          ella con un clic.
+        </p>
       )}
-    </div>
+    </section>
   )
 }
 
 function summaryFor(p) {
-  return `${p.mode} · ${p.shutterLabel} · ${p.apertureLabel} · ISO ${p.isoLabel} · ${p.focalLabel} · ${p.wbLabel}`
+  return `${p.mode}  ${p.shutterLabel}  ${p.apertureLabel}  ISO ${p.isoLabel}  ${p.focalLabel}  ${p.wbLabel}`
 }

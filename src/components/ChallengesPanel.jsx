@@ -20,9 +20,9 @@ export default function ChallengesPanel({ activeId, onSelect, attempts }) {
   const completed = CHALLENGES.filter((c) => stats[c.id]?.best === 100).length
 
   return (
-    <section className="challenges" aria-label="Desafíos">
+    <section className="challenges surface enter" style={{ '--i': 4 }} aria-labelledby="challenges-title">
       <header className="challenges__header">
-        <h3 className="challenges__title">Desafíos</h3>
+        <h2 id="challenges-title" className="panel-title">Desafíos</h2>
         <span className="challenges__progress">
           {completed} de {CHALLENGES.length} completados
         </span>

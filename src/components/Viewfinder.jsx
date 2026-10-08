@@ -545,11 +545,10 @@ const Viewfinder = forwardRef(function Viewfinder(
         width / 2, height / 2, height * 0.35,
         width / 2, height / 2, height * 0.75,
       )
-      // Viñeteado tibio (marrón oscuro) en vez de negro puro — sigue
-      // oscureciendo los bordes igual, pero suma al aire "foto vieja" en
-      // vez de sentirse como una viñeta de lente digital fría.
-      vignette.addColorStop(0, 'rgba(59, 42, 29, 0)')
-      vignette.addColorStop(1, 'rgba(59, 42, 29, 0.38)')
+      // Viñeteado neutro casi negro (no negro puro), como la caída de luz
+      // en los bordes de un lente real.
+      vignette.addColorStop(0, 'rgba(8, 9, 11, 0)')
+      vignette.addColorStop(1, 'rgba(8, 9, 11, 0.38)')
       ctx.fillStyle = vignette
       ctx.fillRect(0, 0, width, height)
     }
@@ -617,19 +616,19 @@ const Viewfinder = forwardRef(function Viewfinder(
       const hw = target.width
       const hh = target.height
       hctx.clearRect(0, 0, hw, hh)
-      hctx.fillStyle = 'rgba(30, 22, 15, 0.72)'
+      hctx.fillStyle = 'rgba(12, 13, 15, 0.72)'
       hctx.fillRect(0, 0, hw, hh)
       // Raíz cuadrada para que las zonas con pocos píxeles también se vean.
       const peak = Math.sqrt(Math.max(...bins))
       const barW = hw / HIST_BINS
-      hctx.fillStyle = '#f3e4c6'
+      hctx.fillStyle = '#ecedef'
       bins.forEach((count, i) => {
         const barH = peak ? (Math.sqrt(count) / peak) * (hh - 8) : 0
         hctx.fillRect(i * barW + 0.5, hh - barH, barW - 1, barH)
       })
       // Marcas de recorte: más de un 8% de los píxeles pegados al extremo
       // = sombras tapadas (izquierda) o luces quemadas (derecha).
-      hctx.fillStyle = '#e0683a'
+      hctx.fillStyle = '#e2623f'
       if (bins[0] / total > 0.08) hctx.fillRect(0, 0, 4, hh)
       if (bins[HIST_BINS - 1] / total > 0.08) hctx.fillRect(hw - 4, 0, 4, hh)
     }

@@ -1,11 +1,8 @@
 .scene-panel {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 10px 12px;
+  padding: 16px 18px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 }
 
 .scene-panel__row {
@@ -17,33 +14,54 @@
 
 .scene-panel__row--tools {
   justify-content: space-between;
+  gap: 10px 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
 }
 
 .scene-panel__chip,
 .scene-panel__tool {
-  padding: 6px 12px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: var(--panel-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  background: var(--surface-2);
   color: var(--ink);
-  font-size: 0.78rem;
-  font-weight: 600;
+  font-size: 0.85rem;
+  font-weight: 500;
   cursor: pointer;
+  transition: background-color 180ms var(--ease), border-color 180ms var(--ease), color 180ms var(--ease),
+    transform 120ms var(--ease);
 }
 
-/* Activo: --accent-deep con texto --accent-ink (mismo par ya verificado en
-   el resto de la app). */
-.scene-panel__chip--active {
-  background: var(--accent-deep);
-  border-color: var(--accent-deep);
+.scene-panel__chip:hover,
+.scene-panel__tool:hover {
+  border-color: var(--line-strong);
+  background: var(--surface-3);
+}
+
+.scene-panel__chip:active,
+.scene-panel__tool:active {
+  transform: scale(0.97);
+}
+
+.scene-panel__chip--active,
+.scene-panel__chip--active:hover {
+  background: var(--accent);
+  border-color: var(--accent);
   color: var(--accent-ink);
 }
 
-.scene-panel__chip:focus-visible,
-.scene-panel__tool:focus-visible,
-.scene-panel__toggle input:focus-visible {
-  outline: 2px solid var(--accent-deep);
-  outline-offset: 2px;
+/* La herramienta secundaria va sin fondo: no compite con las escenas. */
+.scene-panel__tool {
+  background: transparent;
+  color: var(--ink-soft);
+}
+
+.scene-panel__tool:hover {
+  color: var(--ink);
 }
 
 .scene-panel__file {
@@ -51,17 +69,57 @@
 }
 
 .scene-panel__toggle {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 0.78rem;
+  gap: 10px;
+  font-size: 0.85rem;
+  font-weight: 500;
   color: var(--ink);
   cursor: pointer;
+  user-select: none;
+}
+
+/* Checkbox nativo con forma de interruptor: sigue siendo un <input
+   type="checkbox"> (teclado y lectores de pantalla funcionan igual). */
+.scene-panel__switch {
+  appearance: none;
+  position: relative;
+  width: 34px;
+  height: 20px;
+  margin: 0;
+  border-radius: 999px;
+  background: var(--surface-3);
+  border: 1px solid var(--line-strong);
+  cursor: pointer;
+  transition: background-color 200ms var(--ease), border-color 200ms var(--ease);
+}
+
+.scene-panel__switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--ink);
+  transition: transform 220ms var(--ease);
+}
+
+.scene-panel__switch:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.scene-panel__switch:checked::after {
+  transform: translateX(14px);
+  background: var(--accent-ink);
 }
 
 .scene-panel__hint {
   margin: 0;
-  font-size: 0.72rem;
-  line-height: 1.4;
+  max-width: 65ch;
+  font-size: 0.8rem;
+  line-height: 1.5;
   color: var(--ink-soft);
 }

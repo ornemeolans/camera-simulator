@@ -1,11 +1,8 @@
 .challenges {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 12px 14px;
+  padding: 16px 18px 18px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
 }
 
 .challenges__header {
@@ -15,15 +12,10 @@
   gap: 8px;
 }
 
-.challenges__title {
-  margin: 0;
-  font-size: 0.9rem;
-  font-family: 'Arvo', Georgia, serif;
-  color: var(--ink);
-}
-
 .challenges__progress {
-  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.78rem;
   color: var(--ink-soft);
 }
 
@@ -32,77 +24,102 @@
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 10px;
 }
 
 .challenges__item {
-  background: var(--panel-soft);
-  border: 1px solid var(--border-soft);
-  border-radius: 8px;
-  padding: 8px 10px;
+  position: relative;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 12px 14px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
+  transition: border-color 200ms var(--ease), background-color 200ms var(--ease);
 }
 
-.challenges__item--active {
-  border: 2px solid var(--accent-deep);
+.challenges__item:hover {
+  border-color: var(--line-strong);
+}
+
+/* Desafío activo: borde y fondo del acento, sin cambiar el grosor (así no
+   salta el layout al activarlo). */
+.challenges__item--active,
+.challenges__item--active:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
 }
 
 .challenges__item-head {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
 }
 
 .challenges__item-title {
-  font-size: 0.82rem;
-  font-weight: 700;
+  font-size: 0.9rem;
+  font-weight: 600;
   color: var(--ink);
 }
 
 .challenges__item-best {
-  font-size: 0.68rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
   font-variant-numeric: tabular-nums;
   color: var(--ink-soft);
 }
 
 .challenges__brief {
   margin: 0;
-  font-size: 0.74rem;
-  line-height: 1.4;
+  font-size: 0.82rem;
+  line-height: 1.5;
   color: var(--ink);
+  text-wrap: pretty;
 }
 
 .challenges__criteria {
   margin: 0;
-  padding-left: 16px;
-  font-size: 0.72rem;
-  line-height: 1.4;
+  padding-left: 18px;
+  font-size: 0.8rem;
+  line-height: 1.5;
   color: var(--ink);
 }
 
+.challenges__criteria li::marker {
+  color: var(--accent);
+}
+
+/* El botón queda pegado abajo: en una fila de desafíos todos los botones
+   arrancan a la misma altura aunque el texto tenga distinto largo. */
 .challenges__btn {
   margin-top: auto;
   align-self: flex-start;
-  padding: 5px 10px;
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  background: var(--panel);
+  padding: 7px 12px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
   color: var(--ink);
-  font-size: 0.72rem;
-  font-weight: 600;
+  font-size: 0.8rem;
+  font-weight: 500;
   cursor: pointer;
+  transition: background-color 160ms var(--ease), border-color 160ms var(--ease), color 160ms var(--ease),
+    transform 120ms var(--ease);
 }
 
-.challenges__btn[aria-pressed='true'] {
-  background: var(--accent-deep);
-  border-color: var(--accent-deep);
+.challenges__btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.challenges__btn:active {
+  transform: scale(0.97);
+}
+
+.challenges__btn[aria-pressed='true'],
+.challenges__btn[aria-pressed='true']:hover {
+  background: var(--accent);
+  border-color: var(--accent);
   color: var(--accent-ink);
-}
-
-.challenges__btn:focus-visible {
-  outline: 2px solid var(--accent-deep);
-  outline-offset: 2px;
 }

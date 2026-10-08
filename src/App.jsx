@@ -37,6 +37,7 @@ import {
   effectiveIndices,
   computeExposureStops,
 } from './data/cameraSettings'
+import { Aperture } from '@phosphor-icons/react'
 import './App.css'
 
 export default function App() {
@@ -242,15 +243,18 @@ export default function App() {
 
   return (
     <div className="app">
-      <header className="app__header">
-        <h1>Simulador de Cámara</h1>
-        <p className="app__subtitle">
-          Simulador interactivo de réflex, inspirado en la Nikon D7200
-        </p>
+      <header className="app__header enter">
+        <span className="app__mark" aria-hidden="true">
+          <Aperture size={22} weight="duotone" />
+        </span>
+        <div>
+          <h1>Simulador de Cámara</h1>
+          <p className="app__subtitle">Simulador interactivo de réflex, inspirado en la Nikon D7200</p>
+        </div>
       </header>
 
       <main className="app__main">
-        <div className="app__viewfinder-wrap">
+        <div className="app__viewfinder-wrap enter" style={{ '--i': 1 }}>
           <Viewfinder
             ref={viewfinderRef}
             width={960}

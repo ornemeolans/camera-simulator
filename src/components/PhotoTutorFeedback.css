@@ -1,69 +1,9 @@
 .tutor {
   width: 100%;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 12px 14px;
+  padding: 16px 18px 18px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-}
-
-.tutor__title {
-  margin: 0;
-  font-size: 0.82rem;
-  font-family: 'Arvo', Georgia, serif;
-  color: var(--ink);
-}
-
-.tutor__section {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.tutor__section-label {
-  width: fit-content;
-  padding: 1px 8px;
-  border-radius: 4px;
-  font-size: 0.66rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  background: var(--panel-soft);
-}
-
-/* --accent-deep (teal oscurecido) ya se usa como texto sobre --panel-soft
-   en otros lugares del panel de controles — mismo par, mismo contraste
-   verificado, acá para marcar lo que salió BIEN. */
-.tutor__section-label--bien {
-  color: var(--accent-deep);
-}
-
-/* --warn-deep (rust oscurecido) es el mismo color que ya marca
-   sobreexposición en el HUD y el botón de borrar de la galería — reusarlo
-   acá para "A mejorar" mantiene el mismo lenguaje de color en toda la app. */
-.tutor__section-label--mal {
-  color: var(--warn-deep);
-}
-
-.tutor__list {
-  margin: 0;
-  padding-left: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.tutor__list li {
-  font-size: 0.78rem;
-  line-height: 1.45;
-  color: var(--ink);
-}
-
-.tutor__fix {
-  color: var(--ink-soft);
-  font-style: italic;
+  gap: 16px;
 }
 
 .tutor__head {
@@ -73,24 +13,141 @@
   gap: 8px;
 }
 
+/* El puntaje es el número protagonista del panel. */
 .tutor__score {
-  font-family: 'IBM Plex Mono', 'Courier New', monospace;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.tutor__score-max {
   font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+
+.tutor__section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tutor__section-label {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.tutor__section-label--mal {
+  color: var(--accent);
+}
+
+.tutor__list {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tutor__list li {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+.tutor__list li::marker {
+  color: var(--ink-soft);
+}
+
+/* La corrección va en su propio renglón, pegada al problema. */
+.tutor__fix {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 2px;
+  color: var(--ink-soft);
+}
+
+.tutor__fix svg {
+  flex-shrink: 0;
+  position: relative;
+  top: 2px;
+  color: var(--accent);
+}
+
+/* Bloque del desafío: fondo apenas hundido para separarlo de la devolución
+   general, sin otra tarjeta con borde adentro. */
+.tutor__challenge {
+  padding: 12px 14px;
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tutor__challenge--passed {
+  background: var(--accent-soft);
+}
+
+.tutor__challenge-head {
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.85rem;
   font-weight: 600;
   color: var(--ink);
 }
 
-.tutor__list--checks {
-  list-style: none;
-  padding-left: 2px;
+.tutor__challenge-score {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
 }
 
-/* Texto sólo para lectores de pantalla: el ✓/✗ visual no se lee bien solo. */
-.tutor__sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
+.tutor__challenge--passed .tutor__challenge-score {
+  color: var(--accent);
+}
+
+.tutor__list--checks {
+  list-style: none;
+  padding-left: 0;
+}
+
+.tutor__check {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  color: var(--ink-soft);
+}
+
+.tutor__list .tutor__check--ok {
+  color: var(--ink);
+}
+
+.tutor__check-icon {
+  flex-shrink: 0;
+  position: relative;
+  top: 2px;
+  width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--r-sm);
+  background: var(--surface-3);
+  color: var(--ink-soft);
+}
+
+.tutor__check--ok .tutor__check-icon {
+  background: var(--accent);
+  color: var(--accent-ink);
 }

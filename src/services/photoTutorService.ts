@@ -100,7 +100,7 @@ export function analyzeCapture({
         `La foto está ${fuerte ? 'bastante' : 'un poco'} sobreexpuesta (+${ev.toFixed(1)} EV)` +
         (fuerte ? ', se están perdiendo detalles en las zonas claras.' : '.'),
       correccion:
-        'Cerrá un poco el diafragma (número f más alto), subí la velocidad de obturación, o bajá el ISO — cualquiera de los tres resta luz por igual.',
+        'Cerrá un poco el diafragma (número f más alto), subí la velocidad de obturación, o bajá el ISO: cualquiera de los tres resta luz por igual.',
     })
   } else {
     const fuerte = ev < -1.5
@@ -132,9 +132,9 @@ export function analyzeCapture({
   // Sólo comentamos en los extremos — en el rango medio (f/4 a f/8) no hay
   // nada particular que señalar, es una elección neutra.
   if (apertureValue <= 2.8) {
-    bien.push('El diafragma bien abierto desenfocó el fondo y hace que el sujeto resalte — buen recurso para retrato o fauna.')
+    bien.push('El diafragma bien abierto desenfocó el fondo y hace que el sujeto resalte. Buen recurso para retrato o fauna.')
   } else if (apertureValue >= 11) {
-    bien.push('El diafragma cerrado mantiene casi todo el cuadro nítido — ideal si buscabas ver el fondo con detalle, como en un paisaje.')
+    bien.push('El diafragma cerrado mantiene casi todo el cuadro nítido, ideal si buscabas ver el fondo con detalle, como en un paisaje.')
   }
 
   // --- 4. ISO / ruido ---
@@ -178,10 +178,10 @@ export function analyzeCapture({
         correccion: 'Esperá un instante antes o después de disparar para que entre completo en el encuadre.',
       })
     } else if (nearestThirdsDistance(x, y) < 0.12) {
-      bien.push('El sujeto está ubicado cerca de un punto de la regla de tercios — buena composición, le da dinamismo a la toma.')
+      bien.push('El sujeto está ubicado cerca de un punto de la regla de tercios: buena composición, le da dinamismo a la toma.')
     } else if (centrado) {
       mal.push({
-        problema: 'El sujeto quedó muy centrado en el cuadro — una composición válida, pero poco dinámica.',
+        problema: 'El sujeto quedó muy centrado en el cuadro: una composición válida, pero poco dinámica.',
         correccion: 'Probá disparar un poco antes o después para que quede sobre una de las líneas de la cuadrícula de tercios (se ve en el visor).',
       })
     }

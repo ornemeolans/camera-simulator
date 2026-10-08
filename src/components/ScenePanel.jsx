@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { SCENES, CUSTOM_SCENE } from '../data/scenes'
+import { ImageSquare } from '@phosphor-icons/react'
 import './ScenePanel.css'
 
 /**
@@ -30,7 +31,8 @@ export default function ScenePanel({
   }
 
   return (
-    <section className="scene-panel" aria-label="Escena">
+    <section className="scene-panel surface enter" style={{ '--i': 2 }} aria-labelledby="scene-panel-title">
+      <h2 id="scene-panel-title" className="panel-title">Escena</h2>
       <div className="scene-panel__row" role="group" aria-label="Escena de la toma">
         {SCENES.map((s) => (
           <button
@@ -57,6 +59,7 @@ export default function ScenePanel({
 
       <div className="scene-panel__row scene-panel__row--tools">
         <button type="button" className="scene-panel__tool" onClick={() => fileInputRef.current?.click()}>
+          <ImageSquare size={16} weight="bold" aria-hidden="true" />
           {hasCustomPhoto ? 'Cambiar mi foto' : 'Subir mi foto como fondo'}
         </button>
         <input
@@ -69,7 +72,10 @@ export default function ScenePanel({
           tabIndex={-1}
         />
         <label className="scene-panel__toggle">
-          <input type="checkbox" checked={showHistogram} onChange={(e) => onToggleHistogram(e.target.checked)} />
+          <input
+            type="checkbox"
+            className="scene-panel__switch"
+            checked={showHistogram} onChange={(e) => onToggleHistogram(e.target.checked)} />
           Histograma
         </label>
       </div>

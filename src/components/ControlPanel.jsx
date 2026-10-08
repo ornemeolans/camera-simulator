@@ -12,6 +12,7 @@ import {
   isIsoEditable,
   isExposureCompEditable,
 } from '../data/cameraSettings'
+import { Minus, Plus, Question } from '@phosphor-icons/react'
 import './ControlPanel.css'
 
 // Texto de ayuda por control — la idea no es explicar fotografía entera,
@@ -71,8 +72,9 @@ export default function ControlPanel({
   const expCompEditable = isExposureCompEditable(mode)
 
   return (
-    <div className="control-panel">
-      <div className="control-panel__modes">
+    <section className="control-panel surface enter" style={{ '--i': 3 }} aria-labelledby="control-panel-title">
+      <h2 id="control-panel-title" className="panel-title">Ajustes de cámara</h2>
+      <div className="control-panel__modes" role="group" aria-label="Modo de exposición">
         {MODES.map((m) => (
           <button
             key={m.id}
@@ -80,6 +82,7 @@ export default function ControlPanel({
             className={`control-panel__mode-btn${mode === m.id ? ' control-panel__mode-btn--active' : ''}`}
             onClick={() => onModeChange(m.id)}
             title={m.name}
+            aria-pressed={mode === m.id}
           >
             {m.label}
           </button>
@@ -135,28 +138,30 @@ export default function ControlPanel({
           label="Comp. Exp."
           value={EXPOSURE_COMP_STEPS[expCompIndex].label}
           editable={expCompEditable}
+          lockedLabel="no aplica en M"
           wide
           help={HELP_TEXT.compExposicion}
           onPrev={() => onExpCompIndexChange(clamp(expCompIndex - 1, EXPOSURE_COMP_STEPS.length))}
           onNext={() => onExpCompIndexChange(clamp(expCompIndex + 1, EXPOSURE_COMP_STEPS.length))}
         />
       </div>
-    </div>
+    </section>
   )
 }
 
 // Un solo control tipo "dial": una etiqueta, el valor actual bien grande
 // (como el visor de estado de una réflex real) y flechas para moverse por
-// la lista. Cuando `editable` es false se ve apagado y las flechas no
-// hacen nada — así representamos "esto lo calcula la cámara sola en este
+// la lista. Cuando `editable` es false las flechas se desactivan y aparece
+// la marca "auto": así representamos "esto lo calcula la cámara sola en este
 // modo", igual que pasa en una Nikon real en A o S. El VALOR que se
 // muestra en ese caso ya viene resuelto desde afuera (el que calculó el
 // fotómetro simulado), este componente sólo lo pinta.
-function Dial({ label, value, editable, help, wide, onPrev, onNext }) {
+function Dial({ label, value, editable, lockedLabel = 'auto', help, wide, onPrev, onNext }) {
   return (
     <div className={`dial${editable ? '' : ' dial--auto'}${wide ? ' dial--wide' : ''}`}>
       <div className="dial__label-row">
         <span className="dial__label">{label}</span>
+        {!editable && <span className="dial__auto">{lockedLabel}</span>}
         {help && <InfoButton label={label} text={help} />}
       </div>
       <div className="dial__control">
@@ -167,7 +172,7 @@ function Dial({ label, value, editable, help, wide, onPrev, onNext }) {
           disabled={!editable}
           aria-label={`${label} anterior`}
         >
-          −
+          <Minus size={16} weight="bold" />
         </button>
         <span className="dial__value">{value}</span>
         <button
@@ -177,7 +182,7 @@ function Dial({ label, value, editable, help, wide, onPrev, onNext }) {
           disabled={!editable}
           aria-label={`${label} siguiente`}
         >
-          +
+          <Plus size={16} weight="bold" />
         </button>
       </div>
     </div>
@@ -203,7 +208,7 @@ function InfoButton({ label, text }) {
         aria-controls={tooltipId}
         aria-label={`Qué hace ${label}`}
       >
-        ?
+        <Question size={16} weight="bold" />
       </button>
       {open && (
         <span id={tooltipId} role="tooltip" className="dial__info-tooltip">

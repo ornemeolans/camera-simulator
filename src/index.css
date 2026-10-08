@@ -1,48 +1,173 @@
-/* Tipografías para el estilo "Vintage Analog / Retro Film": una serif
-   cálida para los títulos (aire de revista/etiqueta vieja) y una monoespaciada
-   para los números del HUD y los diales (aire de instrumento de medición,
-   como el visor de un fotómetro analógico). El resto del texto se queda con
-   la tipografía del sistema por legibilidad. */
-@import url('https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&family=IBM+Plex+Mono:wght@400;600&display=swap');
+/* Tipografía: Geist para la interfaz y Geist Mono para todo lo que es un
+   número de cámara (HUD, diales, pies de foto), como el display de estado de
+   una réflex. Una sola familia en dos cortes, así la jerarquía sale del peso
+   y el tamaño, no de mezclar estilos. */
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap');
 
 * {
   box-sizing: border-box;
 }
 
 :root {
-  /* Paleta "Vintage Analog / Retro Film": tonos cálidos de foto analógica
-     vieja (crema, tostado, tinta sepia) en vez del negro/gris frío de antes.
-     Cada color de TEXTO de acá fue chequeado contra WCAG AA (mínimo 4.5:1)
-     sobre el fondo puntual donde se usa realmente — no alcanza con "que se
-     vea bien", tiene que ser legible de verdad. Por eso hay variantes
-     "-deep" (más oscuras): los tonos pastel del swatch original (teal,
-     rust, celeste grisáceo) no pasan como texto por sí solos, así que se
-     oscurecieron lo justo para pasar el chequeo sin dejar de ser
-     reconociblemente esos colores. */
-  --bg: #f3e4c6;
-  --panel: #e8d5a8;
-  --panel-soft: #efe0bc;
-  --panel-deep: #c9a873;
-  --border: #b08d55;
-  --border-soft: #c9b287;
+  color-scheme: dark light;
 
-  --ink: #3b2a1d; /* texto principal — pasa 6:1+ contra CUALQUIER fondo de la paleta */
-  --ink-soft: #6b5940; /* texto secundario/atenuado — sólo sobre --bg/--panel/--panel-soft */
+  /* Tema "cuerpo de cámara": grafito frío por defecto (el visor y las fotos
+     se leen mejor sobre un fondo oscuro neutro, como en un editor de fotos),
+     con una variante clara si el sistema la pide. Una sola familia de grises
+     (fríos) y un único acento: el rojo-anaranjado del disparador, que marca
+     todo lo activo, la sobreexposición y lo que hay que mejorar. Los
+     contrastes de texto se chequearon contra WCAG AA (4.5:1) sobre --surface. */
+  --bg: #111214;
+  --surface: #191a1d;
+  --surface-2: #212226;
+  --surface-3: #2b2c31;
+  --line: rgba(255, 255, 255, 0.07);
+  --line-strong: rgba(255, 255, 255, 0.14);
+  --highlight: rgba(255, 255, 255, 0.05);
 
-  --accent: #4a7b7c; /* teal — sólo fondos/bordes/chips, NUNCA texto chico */
-  --accent-deep: #3e6a6b; /* teal oscurecido — usable como texto sobre fondos claros */
-  --accent-ink: #fbf7ec; /* crema — texto sobre fondos de --accent-deep */
+  --ink: #ecedef;
+  --ink-soft: #a2a5ab; /* ~7:1 sobre --surface */
 
-  --warn-deep: #8a431f; /* rust oscurecido — indicador de sobreexposición */
-  --cool-deep: #2f5560; /* gris-azulado oscurecido — indicador de subexposición */
+  --accent: #e2623f; /* ~4.9:1 sobre --surface, usable como texto */
+  --accent-strong: #ef7552;
+  --accent-ink: #170c08; /* texto sobre fondos --accent */
+  --accent-soft: rgba(226, 98, 63, 0.14);
 
-  --shutter: #a83a2c;
-  --shutter-dark: #6e2018;
+  --under: #9cb3c4; /* subexposición: gris azulado apagado, no un segundo acento */
+
+  --shadow: 0 1px 2px rgba(4, 5, 8, 0.4), 0 12px 32px -12px rgba(4, 5, 8, 0.7);
+
+  /* Escala de radios: contenedores 14px, controles 8px, detalles 5px. El
+     disparador y el interruptor del histograma son las únicas piezas redondas. */
+  --r-lg: 14px;
+  --r-md: 8px;
+  --r-sm: 5px;
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Escala de z-index del proyecto (no hay otros valores sueltos). */
+  --z-overlay: 2;
+  --z-tooltip: 20;
+  --z-grain: 50;
+
+  --font-sans: 'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SFMono-Regular', Consolas, monospace;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #e9eaec;
+    --surface: #f6f6f7;
+    --surface-2: #eeeef0;
+    --surface-3: #e2e3e6;
+    --line: rgba(17, 19, 24, 0.08);
+    --line-strong: rgba(17, 19, 24, 0.16);
+    --highlight: rgba(255, 255, 255, 0.7);
+
+    --ink: #16171a;
+    --ink-soft: #55585f; /* ~7:1 sobre --surface */
+
+    --accent: #c0452a; /* ~5:1 sobre --surface */
+    --accent-strong: #a83a22;
+    --accent-ink: #fff7f4;
+    --accent-soft: rgba(192, 69, 42, 0.1);
+
+    --under: #3d6177;
+
+    --shadow: 0 1px 2px rgba(30, 34, 44, 0.06), 0 12px 32px -14px rgba(30, 34, 44, 0.22);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Grano fino fijo encima de todo: rompe la planitud digital del fondo sin
+   tocar el contenido (pointer-events: none y fijo, así no se repinta al
+   hacer scroll). */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-grain);
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Encabezado de cada panel: mismo estilo en toda la app. */
+.panel-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+/* Superficie compartida por los paneles: fondo apenas elevado, borde de 1px
+   casi invisible y un brillo interior arriba (luz desde arriba en toda la
+   app), en vez del borde marcado + fondo de antes. */
+.surface {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: inset 0 1px 0 var(--highlight), var(--shadow);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Entrada escalonada de los paneles al cargar: cada uno define --i. */
+@media (prefers-reduced-motion: no-preference) {
+  .enter {
+    animation: enter 600ms var(--ease) both;
+    animation-delay: calc(var(--i, 0) * 60ms);
+  }
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
